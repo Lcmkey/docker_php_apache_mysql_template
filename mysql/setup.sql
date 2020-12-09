@@ -1,0 +1,15 @@
+-- create the databases
+CREATE DATABASE IF NOT EXISTS docker_example;
+
+-- create the users for each database
+CREATE USER 'sam.leung'@'%' IDENTIFIED BY 'P@ssw0rd';
+GRANT CREATE, ALTER, INDEX, LOCK TABLES, REFERENCES, UPDATE, DELETE, DROP, SELECT, INSERT ON `docker_example`.* TO 'sam.leung'@'%';
+
+CREATE TABLE `docker_example`.users (
+  id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  fav_color VARCHAR(255) NOT NULL,
+  reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+FLUSH PRIVILEGES;

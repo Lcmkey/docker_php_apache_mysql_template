@@ -1,0 +1,38 @@
+# Use root/example user/password credentials
+version: '3.1'
+
+services:
+  php:
+    container_name: apache-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    volumes:
+      - ./src:/var/www/html/
+
+  db:
+    container_name: mysql-service
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_DATABASE: default-db
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: sam.leung
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: sam.leung
+    volumes:
+      - ./mysql/setup.sql:/docker-entrypoint-initdb.d/setup.sql
+      - ./mysql-data:/var/lib/mysql
+
+  adminer:
+    container_name: adminer-service
+    image: adminer
+    restart: always
+    ports:
+      - 8084:8080
+
+volumes:
+  mysql-data:
